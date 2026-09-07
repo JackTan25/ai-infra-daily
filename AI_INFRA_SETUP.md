@@ -4,13 +4,13 @@
 
 - 每天北京时间 01:30 自动运行（GitHub Actions 使用 UTC 17:30）。
 - 默认抓取 `cs.DC, cs.AR, cs.PF, cs.OS, cs.NI`。
-- 默认使用中文摘要和 GitHub Models 中的 `openai/gpt-4.1-mini`，无需另配 API 密钥。
+- 默认使用中文摘要和 `deepseek-chat`。
 - 摘要提示词优先提炼训练、推理/Serving、分布式系统、编译器与 Kernel、加速器、网络、存储、调度、可观测性、可靠性与性价比。
 - GitHub Actions 已获得向 `main` 和 `data` 分支写入每日结果所需的权限。
 
-## 可选的自定义模型
+## 必需的模型配置
 
-默认配置直接使用工作流自带的短期 `GITHUB_TOKEN` 调用 GitHub Models。若要改用 DeepSeek 或其他 OpenAI-compatible 服务，可在仓库的 **Settings → Secrets and variables → Actions** 中配置：
+GitHub Models 已于 2026 年 7 月 30 日下线，因此需要在仓库的 **Settings → Secrets and variables → Actions** 中配置 DeepSeek 或其他 OpenAI-compatible 服务：
 
 - `OPENAI_API_KEY`: 服务的 API 密钥。
 - `OPENAI_BASE_URL`: 服务的 API 地址，例如 DeepSeek 为 `https://api.deepseek.com`。

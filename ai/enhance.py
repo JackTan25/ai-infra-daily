@@ -248,6 +248,17 @@ def main():
         language,
         args.max_workers
     )
+
+    successful_items = [
+        item for item in processed_data
+        if item is not None
+        and item.get("AI", {}).get("tldr")
+        not in {"Summary generation failed", "Processing failed"}
+    ]
+    if processed_data and not successful_items:
+        raise RuntimeError(
+            "AI enhancement failed for every paper; refusing to publish placeholder summaries"
+        )
     
     # 保存结果
     with open(target_file, "w") as f:
