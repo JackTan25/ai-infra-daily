@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  models: read
 
 
 jobs:
@@ -41,12 +42,12 @@ jobs:
         fi
         
         cd daily_arxiv
-        export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-        export OPENAI_BASE_URL=${{ secrets.OPENAI_BASE_URL }}
-        export TOKEN_GITHUB=${{ secrets.TOKEN_GITHUB }}
+        export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY || github.token }}"
+        export OPENAI_BASE_URL="${{ secrets.OPENAI_BASE_URL || 'https://models.github.ai/inference' }}"
+        export TOKEN_GITHUB="${{ secrets.TOKEN_GITHUB || github.token }}"
         export LANGUAGE="${{ vars.LANGUAGE || 'Chinese' }}"
         export CATEGORIES="${{ vars.CATEGORIES || 'cs.DC, cs.AR, cs.PF, cs.OS, cs.NI' }}"
-        export MODEL_NAME="${{ vars.MODEL_NAME || 'deepseek-chat' }}"
+        export MODEL_NAME="${{ vars.MODEL_NAME || 'openai/gpt-4.1-mini' }}"
         
         # 使用Scrapy爬取
         # Use Scrapy to crawl
@@ -108,10 +109,10 @@ jobs:
         echo "开始AI增强处理... / Starting AI enhancement processing..."
         
         cd ai
-        export OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}
-        export OPENAI_BASE_URL=${{ secrets.OPENAI_BASE_URL }}
+        export OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY || github.token }}"
+        export OPENAI_BASE_URL="${{ secrets.OPENAI_BASE_URL || 'https://models.github.ai/inference' }}"
         export LANGUAGE="${{ vars.LANGUAGE || 'Chinese' }}"
-        export MODEL_NAME="${{ vars.MODEL_NAME || 'deepseek-chat' }}"
+        export MODEL_NAME="${{ vars.MODEL_NAME || 'openai/gpt-4.1-mini' }}"
         
         python enhance.py --data ../data/${today}.jsonl
         
